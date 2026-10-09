@@ -1,0 +1,110 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "Handphone product sold in the webstore marketplace",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 150 },
+        "brand": { "type": "string", "maxLength": 50 },
+        "category": { "type": "string", "enum": ["Flagship", "Mid-Range", "Entry-Level"] },
+        "price": { "type": "number" },
+        "originalPrice": { "type": "number" },
+        "stock": { "type": "number" },
+        "description": { "type": "string", "maxLength": 2000 },
+        "specs": {
+          "type": "object",
+          "properties": {
+            "chipset": { "type": "string" },
+            "ram": { "type": "string" },
+            "storage": { "type": "string" },
+            "screen": { "type": "string" },
+            "camera": { "type": "string" },
+            "battery": { "type": "string" }
+          }
+        },
+        "imageUrl": { "type": "string", "maxLength": 1000 },
+        "rating": { "type": "number" },
+        "reviewsCount": { "type": "number" },
+        "isFeatured": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "brand", "category", "price", "stock"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Customer order containing phone items, delivery address and payment verification",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "customerName": { "type": "string", "maxLength": 100 },
+        "customerEmail": { "type": "string", "maxLength": 120 },
+        "customerPhone": { "type": "string", "maxLength": 30 },
+        "customerAddress": { "type": "string", "maxLength": 500 },
+        "items": { "type": "array" },
+        "totalAmount": { "type": "number" },
+        "status": {
+          "type": "string",
+          "enum": ["menunggu_pembayaran", "menunggu_approval", "diproses", "dikirim", "selesai", "ditolak"]
+        },
+        "paymentMethod": { "type": "string" },
+        "paymentProofUrl": { "type": "string", "maxLength": 200000 },
+        "paymentProofUploadedAt": { "type": "string" },
+        "rejectionReason": { "type": "string", "maxLength": 500 },
+        "trackingNumber": { "type": "string", "maxLength": 100 },
+        "notes": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["customerName", "customerEmail", "customerPhone", "customerAddress", "items", "totalAmount", "status"]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "Customer record for analytics and customer relationship management",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 120 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "address": { "type": "string", "maxLength": 500 },
+        "totalOrders": { "type": "number" },
+        "totalSpent": { "type": "number" },
+        "lastOrderAt": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["name", "email"]
+    },
+    "Admin": {
+      "title": "Admin",
+      "description": "Store administrator for managing products, orders, approvals, and reports",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "role": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["email"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Catalog of 12+ smartphones across 3 categories with live inventory"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Order records with status lifecycle and payment proof approvals"
+    },
+    "/customers/{customerId}": {
+      "schema": "Customer",
+      "description": "Directory of customers and their transaction summary"
+    },
+    "/admins/{adminId}": {
+      "schema": "Admin",
+      "description": "Authorized administrators"
+    }
+  }
+}

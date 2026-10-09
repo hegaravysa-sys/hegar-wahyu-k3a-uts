@@ -1,0 +1,6 @@
+{
+  "name": "GadgetVerse - Marketplace HP & Gadget Online",
+  "description": "Toko online marketplace smartphone terlengkap dengan 3 kategori (Flagship, Mid-Range, Entry-Level), shopping cart, upload bukti bayar, dan dashboard admin lengkap untuk stok, approval pesanan, pelanggan, serta laporan sales berbasis Firebase.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,40 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function for admin verification
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'hegarwahyu2@gmail.com' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    // Public catalog browsing for phones
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Orders lifecycle: creation, payment proof upload, admin approvals
+    match /orders/{orderId} {
+      allow read: if true;
+      allow create: if true;
+      allow update: if true;
+      allow delete: if true;
+    }
+
+    // Customer directory and lifetime summary
+    match /customers/{customerId} {
+      allow read, write: if true;
+    }
+
+    // Admin role definitions
+    match /admins/{adminId} {
+      allow read, write: if true;
+    }
+  }
+}
